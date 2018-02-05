@@ -1,0 +1,11 @@
+# Logs
+logs/
+
+# Configs and Auth
+.credentials
+*.json
+*config.py
+*config.pyc
+
+# prototype versions
+api.py
