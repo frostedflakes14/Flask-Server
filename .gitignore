@@ -6,6 +6,7 @@ logs/
 *.json
 *config.py
 *config.pyc
+*.pem
 
 # prototype versions
 api.py

@@ -9,7 +9,7 @@
 # using 'os.system'
 
 import os
-import scriptsconfig as cfg
+import flask_config as cfg
 
 # Using pyvizio send this command in terminal:
 # sudo pyvizio --ip=<TV IP address> --auth=<your auth token> power on
