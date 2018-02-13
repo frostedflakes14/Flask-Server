@@ -7,6 +7,9 @@ flask_users = {  # username: hashed password
     # "new_users": "new_password"
     }
 
+# Hash Salt
+hash_salt = 'some random set of characters'
+
 # Vizio TV
 # Uses pyvizio api
 TV_ip = 'xxx.xxx.xxx.xxx'
@@ -18,3 +21,6 @@ pc_macaddress = 'XX.XX.XX.XX.XX.XX'
 # Nest Login Info
 nest_user = 'YourNestEmail@Email.com'
 nest_pass = 'YourNestPassword'
+
+# Hue Info
+hue_ip = 'xxx.xxx.xxx.xxx'
