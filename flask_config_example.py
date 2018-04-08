@@ -15,8 +15,9 @@ hash_salt = 'some random set of characters'
 TV_ip = 'xxx.xxx.xxx.xxx'
 auth_token = '1xxx1xxx1xxx1'
 
-# WOL PC
+# CompCommands
 pc_macaddress = 'XX.XX.XX.XX.XX.XX'
+pc_ipaddress = 'XXX.XXX.XXX.XXX'
 
 # Nest Login Info
 nest_user = 'YourNestEmail@Email.com'

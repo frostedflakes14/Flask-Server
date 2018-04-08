@@ -75,12 +75,12 @@ class TVCommand(Resource):
         cls = 'TVCommand'
         user = auth.username()
         if (TVCmd == "On") or (TVCmd == 'on'):
-            execfile("Scripts/TVON.py")
             log_valid_cmd(user, cls, TVCmd)
+            execfile("Scripts/TVOn.py")
             ret = 'TV Turned On'
         elif (TVCmd == "Off") or (TVCmd == "off"):
-            execfile("Scripts/TVOFF.py")
             log_valid_cmd(user, cls, TVCmd)
+            execfile("Scripts/TVOff.py")
             ret = 'TV Turned Off'
         else:
             log_unknown_cmd(user, cls, TVCmd)
@@ -95,12 +95,12 @@ class Nest(Resource):
         cls = 'Nest'
         user = auth.username()
         if (NestCmd == "Home") or (NestCmd == "home"):
-            execfile("Scripts/NestHome.py")
             log_valid_cmd(user, cls, NestCmd)
+            execfile("Scripts/NestHome.py")
             ret = 'Nest Set to Home'
         elif (NestCmd == "Away") or (NestCmd == "away"):
-            execfile("Scripts/NestAway.py")
             log_valid_cmd(user, cls, NestCmd)
+            execfile("Scripts/NestAway.py")
             ret = 'Nest Set to Away'
         else:
             log_unknown_cmd(user, cls, NestCmd)
@@ -114,20 +114,20 @@ class CompCommand(Resource):
         cls = 'CompCommand'
         user = auth.username()
         if CompCmd == "Off":
-            execfile("Scripts/CompOFF.py") # Not implemented yet
             log_valid_cmd(user, cls, CompCmd)
+            execfile("Scripts/CompOFF.py")
             ret = 'Computer turned off'
         elif CompCmd == "Sleep":
-            execfile("Scripts/CompSLEEP.py") # Not implemented yet
             log_valid_cmd(user, cls, CompCmd)
+            execfile("Scripts/CompSLEEP.py") # Not implemented yet
             ret = 'Computer set to sleep'
         elif CompCmd == "On":
-            execfile("Scripts/CompWOL.py") # Currently run same script as WOL, may implement full power on later
             log_valid_cmd(user, cls, CompCmd)
+            execfile("Scripts/CompON.py")
             ret = 'Computer woken from lan'
         elif CompCmd == "WOL":
-            execfile("Scripts/CompWOL.py")
             log_valid_cmd(user, cls, CompCmd)
+            execfile("Scripts/CompWOL.py")
             ret = 'Computer woken from lan'
         else:
             log_unknown_cmd(user, cls, CompCmd)
@@ -140,28 +140,36 @@ class CustomSequence(Resource):
         cls = 'CustomSequence'
         user = auth.username()
         if SeqCmd == "LeaveApartment":
-            execfile("Scripts/LightsLivingRoomOn.py") # Turns lights on, then back off to verify it works
+            log_valid_cmd(user, cls, SeqCmd)
+            execfile("Scripts/Lights/LivingRoomOnRed.py") # Turns lights on, then back off to verify it works
             execfile("Scripts/CompSLEEP.py")
             execfile("Scripts/NestAway.py")
-            execfile("Scripts/TVOFF.py")
-            execfile("Scripts/LightsAllOff.py")
-            log_valid_cmd(user, cls, SeqCmd)
+            execfile("Scripts/TVOff.py")
+            execfile("Scripts/Lights/AllOff.py")
             ret = 'Sequence for leaving apartment has run'
         elif SeqCmd == "ArriveApartment":
-            execfile("Scripts/CompWOL.py")
-            execfile("Scripts/NestHome.py")
-            execfile("Scripts/LightsLivingRoomOn.py")
             log_valid_cmd(user, cls, SeqCmd)
+            execfile("Scripts/CompON.py")
+            execfile("Scripts/NestHome.py")
+            execfile("Scripts/Lights/LivingRoomOnWhiteBlue.py")
             ret = 'Sequence for arriving at apartment has run'
         elif SeqCmd == "GoToSleep":
-            execfile("Scripts/CompSLEEP.py")
-            execfile("LightsLivingRoomOff.py")
-            execfile("LightsBedroomOn.py")
             log_valid_cmd(user, cls, SeqCmd)
+            execfile("Scripts/CompSLEEP.py")
+            execfile("Scripts/Lights/LivingRoomOff.py")
+            execfile("Scripts/Lights/BedroomOn.py")
             ret = 'Sequence for going to sleep has run'
         else:
             log_unknown_cmd(user, cls, SeqCmd)
             ret = 'Unrecognized Sequence Command'
+        return ret, 200
+
+class GetLog(Resource):
+    @auth.login_required
+    def get(self):
+        cls = 'GetLog'
+        user = auth.username()
+        ret = 'Logfile shown'
         return ret, 200
 
 # Setup Api resource routing here
@@ -170,6 +178,7 @@ api.add_resource(TVCommand, '/TVCommand/<TVCmd>') # Passes through a command to 
 api.add_resource(Nest, '/Nest/<NestCmd>')
 api.add_resource(CompCommand, '/CompCommand/<CompCmd>')
 api.add_resource(CustomSequence, '/CustomSeq/<SeqCmd>')
+api.add_resource(GetLog, '/GetLog')
 
 if __name__ == '__main__':
     handler = RotatingFileHandler('logfile.log', maxBytes=10000, backupCount=1)

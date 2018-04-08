@@ -1,6 +1,7 @@
 # Logs
 logs/
 *.log
+*.log*
 
 # Configs and Auth
 .credentials
@@ -10,4 +11,4 @@ logs/
 *.pem
 
 # prototype versions
-api.py
+api_old.py
