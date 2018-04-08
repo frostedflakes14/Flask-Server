@@ -181,7 +181,7 @@ api.add_resource(CustomSequence, '/CustomSeq/<SeqCmd>')
 api.add_resource(GetLog, '/GetLog')
 
 if __name__ == '__main__':
-    handler = RotatingFileHandler('logfile.log', maxBytes=10000, backupCount=1)
+    handler = RotatingFileHandler('Logs/logfile.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
     app.logger.addHandler(handler)
     app.run(host='0.0.0.0',ssl_context=('cert.pem','key.pem'),debug=True)
